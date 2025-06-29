@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do WebApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>To-Do WebApp</h1>
+        <div>
+            <input type="text" id="taskInput" placeholder="Add new task...">
+            <button onclick="addTask()">Add</button>
+        </div>
+
+        <h2 style="margin-top: 30px;">Pending Tasks</h2>
+        <ul id="pendingTasks"></ul>
+
+        <h2>Completed Tasks</h2>
+        <ul id="completedTasks"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById("taskInput");
+            const taskText = taskInput.value.trim();
+            if (taskText === '') return;
+
+            const timestamp = new Date().toLocaleString();
+
+            const li = document.createElement("li");
+            li.innerHTML = `<span>${taskText}<div class="timestamp">[${timestamp}]</div></span>
+                      <div class="task-buttons">
+                        <button onclick="completeTask(this)">Complete</button>
+                        <button onclick="deleteTask(this)">Delete</button>
+                      </div>`;
+
+            document.getElementById("pendingTasks").appendChild(li);
+            taskInput.value = '';
+        }
+
+        function completeTask(button) {
+            const li = button.closest("li");
+            const timestamp = new Date().toLocaleString();
+            li.querySelector(".task-buttons").remove();
+            li.classList.add("completed");
+            li.innerHTML += `<div class="timestamp">[Completed at: ${timestamp}]</div>`;
+            document.getElementById("completedTasks").appendChild(li);
+        }
+
+        function deleteTask(button) {
+            const li = button.closest("li");
+            li.remove();
+        }
+    </script>
+</body>
+
+</html>
